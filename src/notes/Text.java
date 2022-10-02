@@ -53,7 +53,7 @@ public class Text {
 		    fw.write(text + System.lineSeparator());
 		    fw.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(error2);;
 		}
 	}
 	
@@ -76,6 +76,13 @@ public class Text {
 		return concatText;
 	}
 	
+	/**
+	 * filters text on chosen headline (for now it´s default "Java")
+	 * @param path path path to file
+	 * @param text all text from text file
+	 * @param headline variable to filter text by (for now it´s default "Java")
+	 * @return filtered text 
+	 */
 	protected static String getFilteredText(String path, String text, String headline) {
 		String filteredText = null;
 			
@@ -93,13 +100,18 @@ public class Text {
 		return filteredText; 
 	}
 	
+	/**
+	 * returns text from text file 
+	 * @param path path to file
+	 * @return text from text file 
+	 */
 	protected static String fileReader(String path) {
 		String text;
 		
 		try {
 			text = new String(Files.readAllBytes(Paths.get(path)));
 		} catch (IOException e) {
-			text = error1;
+			return error1;
 		}
 		
 		return text;

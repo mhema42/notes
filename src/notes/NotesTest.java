@@ -27,6 +27,17 @@ class NotesTest {
 	
 	@Test
 	@Order(2)
+	void filterTest() {
+		String headline = "Rubrik";
+		String path = ".\\test.txt";
+		String text = Text.fileReader(path);
+		String filteredText = Text.getFilteredText(path, text, headline);
+		
+		assertEquals(filteredText, "Rubrik - underrubrik: anteckning\n");	
+	}
+
+	@Test
+	@Order(3)
 	void fileExistTest() {
 		
 		File file = new File(".\\test.txt");
@@ -37,5 +48,4 @@ class NotesTest {
 			file.delete();
 		}
 	}
-	
 }
