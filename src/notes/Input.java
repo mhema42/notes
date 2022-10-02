@@ -1,5 +1,7 @@
 package notes;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,16 +12,26 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
 
 public class Input {
 
 	public static void main(String[] args) {
-
-		String path = ".\\text.txt";
 		
-		textInput(path);
+		String headline = "Java";
+		String path = ".\\text.txt";
+		String text = Text.fileReader(path);
+		String filteredText = Text.getFilteredText(path, text, headline);
+		
+//		textOutput(filteredText);
+		textOutput(text);
+//		textInput(path);
 	}	
 	
 	public static void textInput(String path) {
@@ -27,7 +39,7 @@ public class Input {
 		frame.setTitle("Anteckning");
 		JPanel mainPanel = new JPanel();
 		JPanel headingPanel = new JPanel();
-		JLabel headingLabel = new JLabel("Ange text som sedan sparas i filen text.txt");
+		JLabel headingLabel = new JLabel("Ange text som ska sparas i filen text.txt");
 		headingPanel.add(headingLabel);
 		JPanel panel = new JPanel(new GridBagLayout());
 		GridBagConstraints constr = new GridBagConstraints();
@@ -54,6 +66,7 @@ public class Input {
 		constr.anchor = GridBagConstraints.CENTER;
 		newTextArea.setLineWrap(true);
 		newTextArea.setWrapStyleWord(true);
+		
 		JButton button = new JButton("Spara");
 		button.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -66,6 +79,7 @@ public class Input {
 			newTextArea.setText("");
 			}
 		});
+		
 		panel.add(button, constr);
 		mainPanel.add(headingPanel);
 		mainPanel.add(panel);
@@ -75,6 +89,28 @@ public class Input {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+	}
+	
+	public static void textOutput(String text) {
+		JFrame f = new JFrame();  
+        Container cp = f.getContentPane();  
+        JTextPane pane = new JTextPane();  
+        SimpleAttributeSet attributeSet = new SimpleAttributeSet();  
+        
+        Document doc = pane.getStyledDocument();  
+        try {
+			doc.insertString(doc.getLength(), text, attributeSet);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		} 
+        
+        JScrollPane scrollPane = new JScrollPane(pane);  
+        cp.add(scrollPane, BorderLayout.CENTER);  
+       
+        f.setSize(600, 400);
+        f.setLocationRelativeTo(null);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        f.setVisible(true);
 	}
 }
 	
